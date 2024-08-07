@@ -1,3 +1,4 @@
+--Cleaning data in SQL Queries
 create database PortfolioProject
 use PortfolioProject
 
