@@ -1,4 +1,104 @@
-/* Using sample data (table) Account, I am creating a target table to store historical data. These table allow for data insertion, updates, and deletions, or for setting the status of records to 'deleted'. This is achieved through the use of merge conditions in T-SQL.*/Merge Into Account_Edw tgtUsing (			Select 					 a.AccountID  ,                     a.CurrentBalance ,					 a.BalanceDate ,					 a.PaymentAmount ,					 a.DueDate ,					 a.AccountStatus ,					 Binary_Checksum( a.AccountID, a.CurrentBalance, a.BalanceDate, a.PaymentAmount, a.DueDate, a.AccountStatus) BinaryCheckSum			From Account a			) srcON tgt.AccountID=src.AccountID   WHEN Matched AND src.BinaryCheckSum<> tgt.BinaryCheckSum AND tgt.RecordStatus='Current' THEN  --In this case if a value in the target table changed and is no longer current, It will be updated.UPDATE Set RecordStatus='OLD',StatusEndDate=Getdate()WHEN NOT MATCHED BY TARGET THEN--In this case, if data exists in source but not in target, it will Insert the record.Insert (                    AccountID  ,                     CurrentBalance ,					 BalanceDate ,					 PaymentAmount ,					 DueDate ,					 AccountStatus,					 RecordStatus ,					 StatusStartdate ,					 StatusEnddate )VALUES (                    src.AccountID  ,                     src.CurrentBalance ,					 src.BalanceDate ,					 src.PaymentAmount ,					 src.DueDate ,					 src.AccountStatus,					 'Current' ,					 Getdate() ,					 NULL )WHEN NOT MATCHED BY SOURCE AND tgt.recordStatus='Current' THEN --In this case, if the record doesn't exist in source but exists in target table, It will change the status to Deleted.Update Set RecordStatus='Deleted',StatusEndDate=Getdate() ;--Second MergeMerge Into Account_Edw tgtUsing (			Select 					 a.AccountID  ,                     a.CurrentBalance ,					 a.BalanceDate ,					 a.PaymentAmount ,					 a.DueDate ,					 a.AccountStatus ,					 Binary_Checksum( a.AccountID  , a.CurrentBalance , a.BalanceDate , a.PaymentAmount , a.DueDate ,a.AccountStatus  ) BinaryCheckSum			From Account a			) srcON tgt.AccountID=src.AccountID AND src.BinaryCheckSum= tgt.BinaryCheckSum --If the records both exist in the source but not in target I will insert the valueWHEN NOT MATCHED BY TARGET THEN--In this case, It will insert the current record that was inserted in source table after the first merge updates the previous record to old.Insert (                    AccountID  ,                     CurrentBalance ,					 BalanceDate ,					 PaymentAmount ,					 DueDate ,					 AccountStatus,					 RecordStatus ,					 StatusStartdate ,					 StatusEnddate )VALUES (                     src.AccountID  ,                     src.CurrentBalance ,					 src.BalanceDate ,					 src.PaymentAmount ,					 src.DueDate ,					 src.AccountStatus,					 'Current' ,					 Getdate() ,					 NULL );/* SAMPLE DATATarget tableCREATE TABLE [Account_EDW](
+
+
+/* Using sample data (table) Account, I am creating a target table to store historical data. These table allow for data insertion, updates, 
+and deletions, or for setting the status of records to 'deleted'. This is achieved through the use of merge conditions in T-SQL.*/
+
+Merge Into Account_Edw tgt
+	
+Using (
+			Select 
+					 a.AccountID  ,
+                     a.CurrentBalance ,
+					 a.BalanceDate ,
+					 a.PaymentAmount ,
+					 a.DueDate ,
+					 a.AccountStatus ,
+					 Binary_Checksum( a.AccountID, a.CurrentBalance, a.BalanceDate, a.PaymentAmount, a.DueDate, a.AccountStatus) BinaryCheckSum
+			From Account a
+			) src
+ON tgt.AccountID=src.AccountID   
+WHEN Matched AND src.BinaryCheckSum<> tgt.BinaryCheckSum AND tgt.RecordStatus='Current' THEN  
+--In this case if a value in the target table changed and is no longer current, It will be updated.
+UPDATE 
+Set RecordStatus='OLD',
+StatusEndDate=Getdate()
+
+WHEN NOT MATCHED BY TARGET THEN
+--In this case, if data exists in source but not in target, it will Insert the record.
+Insert 
+(                    AccountID  ,
+                     CurrentBalance ,
+					 BalanceDate ,
+					 PaymentAmount ,
+					 DueDate ,
+					 AccountStatus,
+					 RecordStatus ,
+					 StatusStartdate ,
+					 StatusEnddate 
+)
+VALUES 
+(                    src.AccountID  ,
+                     src.CurrentBalance ,
+					 src.BalanceDate ,
+					 src.PaymentAmount ,
+					 src.DueDate ,
+					 src.AccountStatus,
+					 'Current' ,
+					 Getdate() ,
+					 NULL 
+)
+WHEN NOT MATCHED BY SOURCE AND tgt.recordStatus='Current' THEN 
+--In this case, if the record doesn't exist in source but exists in target table, It will change the status to Deleted.
+Update 
+Set RecordStatus='Deleted',
+StatusEndDate=Getdate() ;
+
+--Second Merge
+Merge Into Account_Edw tgt
+Using (
+			Select 
+					 a.AccountID  ,
+                     a.CurrentBalance ,
+					 a.BalanceDate ,
+					 a.PaymentAmount ,
+					 a.DueDate ,
+					 a.AccountStatus ,
+					 Binary_Checksum( a.AccountID  , a.CurrentBalance , a.BalanceDate , a.PaymentAmount , a.DueDate ,a.AccountStatus  ) BinaryCheckSum
+			From Account a
+			) src
+ON tgt.AccountID=src.AccountID AND src.BinaryCheckSum= tgt.BinaryCheckSum 
+--If the records both exist in the source but not in target I will insert the value
+WHEN NOT MATCHED BY TARGET THEN
+--In this case, It will insert the current record that was inserted in source table after the first merge updates the previous record to old.
+
+Insert 
+(                    AccountID  ,
+                     CurrentBalance ,
+					 BalanceDate ,
+					 PaymentAmount ,
+					 DueDate ,
+					 AccountStatus,
+					 RecordStatus ,
+					 StatusStartdate ,
+					 StatusEnddate 
+)
+VALUES 
+(
+                     src.AccountID  ,
+                     src.CurrentBalance ,
+					 src.BalanceDate ,
+					 src.PaymentAmount ,
+					 src.DueDate ,
+					 src.AccountStatus,
+					 'Current' ,
+					 Getdate() ,
+					 NULL 
+);
+
+/* SAMPLE DATA
+
+Target table
+CREATE TABLE [Account_EDW](
 	[AccountKey] [int] IDENTITY(1,1) NOT NULL,
 	[AccountID] [int] NOT NULL,
 	[CurrentBalance] [numeric](12, 2) NULL,
@@ -9,16 +109,49 @@
 	[RecordStatus] [varchar](40) NULL,
 	[StatusStartdate] [datetime] NULL,
 	[StatusEnddate] [datetime] NULL,
-	[BinaryChecksum]  AS (binary_checksum([AccountID],[CurrentBalance],[BalanceDate],[PaymentAmount],[DueDate],[AccountStatus]))Source tableCREATE TABLE Account(
+	[BinaryChecksum]  AS (binary_checksum([AccountID],[CurrentBalance],[BalanceDate],[PaymentAmount],[DueDate],[AccountStatus]))
+
+Source table
+CREATE TABLE Account(
 	[AccountID] [int] NOT NULL,
 	[CurrentBalance] [numeric](12, 2) NULL,
 	[BalanceDate] [datetime] NULL,
 	[PaymentAmount] [numeric](12, 2) NULL,
 	[DueDate] [date] NULL,
-	[AccountStatus] [varchar](20) NULL)insert into Accountvalues(1, 400.00, cast('2024-01-01 00:00:00.000' as DATETIME), 40.00, CAST('2024-01-01' AS DATE), 'Active'),      (2, 600.00, cast('2024-01-01 00:00:00.000' as DATETIME), 35.00, CAST('2024-01-01' AS DATE), 'Active'),	  (3, 200.00, cast('2024-01-01 00:00:00.000' as DATETIME), 45.00, CAST('2024-01-01' AS DATE), 'Delq'),	  (4, 100.00, cast('2024-01-01 00:00:00.000' as DATETIME), 65.00, CAST('2024-01-01' AS DATE), 'Active'),
+	[AccountStatus] [varchar](20) NULL)
+
+insert into Account
+values(1, 400.00, cast('2024-01-01 00:00:00.000' as DATETIME), 40.00, CAST('2024-01-01' AS DATE), 'Active'),
+      (2, 600.00, cast('2024-01-01 00:00:00.000' as DATETIME), 35.00, CAST('2024-01-01' AS DATE), 'Active'),
+	  (3, 200.00, cast('2024-01-01 00:00:00.000' as DATETIME), 45.00, CAST('2024-01-01' AS DATE), 'Delq'),
+	  (4, 100.00, cast('2024-01-01 00:00:00.000' as DATETIME), 65.00, CAST('2024-01-01' AS DATE), 'Active'),
 	  (5, 200.00, cast('2024-01-01 00:00:00.000' as DATETIME), 25.00, CAST('2024-01-01' AS DATE), 'ChgOff'),
 	  (6, 100.00, cast('2024-01-01 00:00:00.000' as DATETIME), 15.00, CAST('2024-01-01' AS DATE), 'Active'),
-	  (7, 800.00, cast('2024-01-01 00:00:00.000' as DATETIME), 60.00, CAST('2024-01-01' AS DATE), 'Active')
+	  (7, 800.00, cast('2024-01-01 00:00:00.000' as DATETIME), 60.00, CAST('2024-01-01' AS DATE), 'Active')
+
 */
 
-/*To update values and see changesUpdate AccountSet CurrentBalance=100where AccountID=4Select * From AccountSelect * from Account_Edw*/
+/*
+To update values and see changes
+Update Account
+Set CurrentBalance=100
+where AccountID=4
+
+Select * From Account
+Select * from Account_Edw
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
