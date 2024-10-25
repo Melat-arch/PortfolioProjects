@@ -1,0 +1,921 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/16/2024 8:26:23 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="MELAT"
+  DTS:CreatorName="MELAT\Tsion"
+  DTS:DTSID="{391ADA96-136F-4EFB-BA70-30A7B14E8252}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5467.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ImgSort"
+  DTS:PackageType="5"
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{51C48243-A3CD-44FE-B2CD-688165242504}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Batch]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{84646AE3-71A9-442D-AB4D-6D93B1319202}"
+      DTS:ObjectName="Batch">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="3"
+          DTS:ConnectionString="C:\Users\Tsion\OneDrive\Desktop\Batch" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[MELAT\MELAT.ImgIndexing]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{3623D2B8-30FD-4D29-9EB8-488684185668}"
+      DTS:ObjectName="MELAT\MELAT.ImgIndexing">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=MELAT\MELAT;Initial Catalog=ImgIndexing;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-ImgSort-{3623D2B8-30FD-4D29-9EB8-488684185668}MELAT\MELAT.ImgIndexing;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[MELAT\MELAT.TSQL2012]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{15A751D8-66E3-4C6B-9C0F-83A31EA187E2}"
+      DTS:ObjectName="MELAT\MELAT.TSQL2012">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=MELAT\MELAT;Initial Catalog=TSQL2012;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-ImgSort-{15A751D8-66E3-4C6B-9C0F-83A31EA187E2}MELAT\MELAT.TSQL2012;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C058F2E9-FEBC-46A2-A52B-3CACD065F8D4}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="BatchFileCount">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5613AB62-C664-4103-B2BB-A2461BE6D436}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="BatchFileCounterScalar">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2D617F80-F081-4C02-8B59-FBD4526BEDB7}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::BatchFolder] + &quot;\\BatchFile&quot;+  (DT_WSTR, 12) @[User::BatchFileCounterScalar]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="BatchFileFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">\\MELAT\Users\Tsion\OneDrive\Desktop\Batch\BatchFile0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C4A6C543-E12C-4A1E-AD7B-3009B6CF92D8}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[$Project::FolderLocation]+&quot;\\&quot;+&quot;Batch&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="BatchFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">\\MELAT\Users\Tsion\OneDrive\Desktop\Batch</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{651374D3-C77D-4E7F-ACDC-5315B8E918F7}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ImgFullyQualifiedName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{20B8B0F8-6645-40A3-930E-A6E625B4B08A}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="SummaryCount">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{AF588A66-81B1-430F-9D1A-2407E3149B81}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="SummaryCountScalar">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E4C2849C-A701-4C6C-986C-8B6AC5A901D0}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::BatchFileFolder]+&quot;\\Summary&quot;+ (DT_WSTR, 12) @[User::SummaryCountScalar]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SummaryFileFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">\\MELAT\Users\Tsion\OneDrive\Desktop\Batch\BatchFile0\Summary0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Sequence Container"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{02AB9EE9-32C1-4A3C-98A5-007AD12C7032}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Sequence Container">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\BatchFolderCreate"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="File System Task"
+          DTS:DTSID="{37BB749B-0372-462A-8474-9FFD73708919}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="BatchFolderCreate"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="CreateDirectory"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="{84646AE3-71A9-442D-AB4D-6D93B1319202}" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Creates BatchFile Folder"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{73C36C13-DB5A-4775-A847-FC679473471C}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Creates BatchFile Folder">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.ForEachADOEnumerator"
+            DTS:DTSID="{E928AB48-E3C8-4BBC-9A23-9EFEFEC67F9E}"
+            DTS:ObjectName="{E928AB48-E3C8-4BBC-9A23-9EFEFEC67F9E}">
+            <DTS:ObjectData>
+              <FEEADO
+                EnumType="EnumerateRowsInFirstTable"
+                VarName="User::BatchFileCount" />
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\Sequence Container\Creates BatchFile Folder\BatchFileFolderCreate"
+              DTS:CreationName="Microsoft.FileSystemTask"
+              DTS:Description="File System Task"
+              DTS:DTSID="{3074ba1f-8584-4d97-abd1-bd93777fef8f}"
+              DTS:ExecutableType="Microsoft.FileSystemTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="BatchFileFolderCreate"
+              DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <FileSystemData
+                  TaskOperationType="CreateDirectory"
+                  TaskOverwriteDestFile="True"
+                  TaskSourcePath="User::BatchFileFolder"
+                  TaskIsSourceVariable="True" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders"
+              DTS:CreationName="STOCK:FOREACHLOOP"
+              DTS:Description="Foreach Loop Container"
+              DTS:DTSID="{C504C0BE-5807-4C13-ABAF-9DFB07C25702}"
+              DTS:ExecutableType="STOCK:FOREACHLOOP"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Create Summary Folders">
+              <DTS:ForEachEnumerator
+                DTS:CreationName="Microsoft.ForEachADOEnumerator"
+                DTS:DTSID="{0111C102-8959-4038-98C8-7B4F3A81CC6F}"
+                DTS:ObjectName="{0111C102-8959-4038-98C8-7B4F3A81CC6F}">
+                <DTS:ObjectData>
+                  <FEEADO
+                    EnumType="EnumerateRowsInFirstTable"
+                    VarName="User::SummaryCount" />
+                </DTS:ObjectData>
+              </DTS:ForEachEnumerator>
+              <DTS:Variables />
+              <DTS:Executables>
+                <DTS:Executable
+                  DTS:refId="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\CreateSummaryFolder"
+                  DTS:CreationName="Microsoft.FileSystemTask"
+                  DTS:Description="File System Task"
+                  DTS:DTSID="{16254588-401a-449a-a372-d6e28f96722a}"
+                  DTS:ExecutableType="Microsoft.FileSystemTask"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="CreateSummaryFolder"
+                  DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+                  DTS:ThreadHint="0">
+                  <DTS:Variables />
+                  <DTS:ObjectData>
+                    <FileSystemData
+                      TaskOperationType="CreateDirectory"
+                      TaskOverwriteDestFile="True"
+                      TaskSourcePath="User::SummaryFileFolder"
+                      TaskIsSourceVariable="True" />
+                  </DTS:ObjectData>
+                </DTS:Executable>
+                <DTS:Executable
+                  DTS:refId="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\Load summaryFolder Table"
+                  DTS:CreationName="Microsoft.ExecuteSQLTask"
+                  DTS:Description="Execute SQL Task"
+                  DTS:DTSID="{59ffed83-6fa8-4f44-8497-427901722e84}"
+                  DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="Load summaryFolder Table"
+                  DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+                  DTS:ThreadHint="0">
+                  <DTS:Variables />
+                  <DTS:ObjectData>
+                    <SQLTask:SqlTaskData
+                      SQLTask:Connection="{3623D2B8-30FD-4D29-9EB8-488684185668}"
+                      SQLTask:SqlStatementSource="Declare @SummaryFileFolder Varchar(255)=?,@BatchFileFolder Varchar(255)=?, @BatchFolder Varchar(255)=?&#xA;Insert Into Summary(BatchFileID,&#xA;&#x9;&#x9;                      SummaryFolderName)&#xA;&#x9;    Select BatchFileID , Replace(@SummaryFileFolder,@BatchFileFolder+'\', '')&#xA;&#x9;&#x9;From dbo.BatchFile &#xA;&#x9;&#x9;Where BatchFileFolderName=Replace(@BatchFileFolder,@BatchFolder+'\', '')&#xA;&#x9;    Except&#xA;&#x9;&#x9;Select BatchFileID,&#xA;&#x9;&#x9;       SummaryFolderName&#xA;&#x9;&#x9;From dbo.Summary" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                      <SQLTask:ParameterBinding
+                        SQLTask:ParameterName="@SummaryFileFolder"
+                        SQLTask:DtsVariableName="User::SummaryFileFolder"
+                        SQLTask:ParameterDirection="Input"
+                        SQLTask:DataType="129"
+                        SQLTask:ParameterSize="-1" />
+                      <SQLTask:ParameterBinding
+                        SQLTask:ParameterName="@BatchFileFolder"
+                        SQLTask:DtsVariableName="User::BatchFileFolder"
+                        SQLTask:ParameterDirection="Input"
+                        SQLTask:DataType="129"
+                        SQLTask:ParameterSize="-1" />
+                      <SQLTask:ParameterBinding
+                        SQLTask:ParameterName="@BatchFolder"
+                        SQLTask:DtsVariableName="User::BatchFolder"
+                        SQLTask:ParameterDirection="Input"
+                        SQLTask:DataType="129"
+                        SQLTask:ParameterSize="-1" />
+                    </SQLTask:SqlTaskData>
+                  </DTS:ObjectData>
+                </DTS:Executable>
+                <DTS:Executable
+                  DTS:refId="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\LoadImagePathToTables"
+                  DTS:CreationName="STOCK:FOREACHLOOP"
+                  DTS:Description="Foreach Loop Container"
+                  DTS:DTSID="{A3FB8272-F438-428B-8B84-D15CD262247C}"
+                  DTS:ExecutableType="STOCK:FOREACHLOOP"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="LoadImagePathToTables">
+                  <DTS:ForEachEnumerator
+                    DTS:CreationName="Microsoft.ForEachFileEnumerator"
+                    DTS:DTSID="{E5119271-0F09-4C07-9400-4D1CF1B37ACD}"
+                    DTS:ObjectName="{E5119271-0F09-4C07-9400-4D1CF1B37ACD}">
+                    <DTS:PropertyExpression
+                      DTS:Name="Directory">@[User::SummaryFileFolder]</DTS:PropertyExpression>
+                    <DTS:ObjectData>
+                      <ForEachFileEnumeratorProperties>
+                        <FEFEProperty
+                          Folder="\\MELAT\Users\Tsion\OneDrive\Desktop\Batch\BatchFile0\Summary0" />
+                        <FEFEProperty
+                          FileSpec="*.*" />
+                        <FEFEProperty
+                          FileNameRetrievalType="0" />
+                        <FEFEProperty
+                          Recurse="0" />
+                      </ForEachFileEnumeratorProperties>
+                    </DTS:ObjectData>
+                  </DTS:ForEachEnumerator>
+                  <DTS:Variables />
+                  <DTS:Executables>
+                    <DTS:Executable
+                      DTS:refId="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\LoadImagePathToTables\LoadImgFullyQualifiedNameIntoImgIndexing"
+                      DTS:CreationName="Microsoft.ExecuteSQLTask"
+                      DTS:Description="Execute SQL Task"
+                      DTS:DTSID="{d87ccfd5-3138-485d-a321-edd6aea18f55}"
+                      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+                      DTS:LocaleID="-1"
+                      DTS:ObjectName="LoadImgFullyQualifiedNameIntoImgIndexing"
+                      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+                      DTS:ThreadHint="0">
+                      <DTS:Variables />
+                      <DTS:ObjectData>
+                        <SQLTask:SqlTaskData
+                          SQLTask:Connection="{3623D2B8-30FD-4D29-9EB8-488684185668}"
+                          SQLTask:SqlStatementSource="Declare @ImmageName Varchar(255)=?,@SummaryFileFolder Varchar(255)=?,@BatchFileFolder  Varchar(255)=?&#xA;Insert Into dbo.ImmageIndexing(SummaryID, DocType,DocDate,ImmageName)&#xA;Select SummaryID,&#xA;&#x9;&#x9;Left(Replace(@ImmageName,@SummaryFileFolder+'\', ''), CharIndex('_',Replace(@ImmageName,@SummaryFileFolder+'\', ''))-1),&#xA;&#x9;&#x9;Convert(Date,Substring(Replace(@ImmageName,@SummaryFileFolder+'\', ''),CharIndex('_',Replace(@ImmageName,@SummaryFileFolder+'\', ''))+1,&#xA;&#x9;&#x9;CharIndex('_',Replace(@ImmageName,@SummaryFileFolder+'\', ''),CharIndex('_',Replace(@ImmageName,@SummaryFileFolder+'\', ''))+1)&#xA;&#x9;&#x9;-CharIndex('_',Replace(@ImmageName,@SummaryFileFolder+'\', ''))-1),112),&#xA;&#x9;&#x9;Right(Replace(@ImmageName,@SummaryFileFolder+'\', ''),CharIndex('_', Reverse(Replace(@ImmageName,@SummaryFileFolder+'\', '')))-1)&#xA;From dbo.Summary&#xA;where SummaryFolderName=Replace(@SummaryFileFolder,@BatchFileFolder+'\', '')&#xA;Except&#xA;&#xA;Select SummaryID,&#xA;       DocType,&#xA;&#x9;   DocDate,&#xA;&#x9;   ImmageName&#xA;From dbo.ImmageIndexing" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                          <SQLTask:ParameterBinding
+                            SQLTask:ParameterName="@ImmageName"
+                            SQLTask:DtsVariableName="User::ImgFullyQualifiedName"
+                            SQLTask:ParameterDirection="Input"
+                            SQLTask:DataType="129"
+                            SQLTask:ParameterSize="-1" />
+                          <SQLTask:ParameterBinding
+                            SQLTask:ParameterName="@SummaryFileFolder"
+                            SQLTask:DtsVariableName="User::SummaryFileFolder"
+                            SQLTask:ParameterDirection="Input"
+                            SQLTask:DataType="129"
+                            SQLTask:ParameterSize="-1" />
+                          <SQLTask:ParameterBinding
+                            SQLTask:ParameterName="@BatchFileFolder"
+                            SQLTask:DtsVariableName="User::BatchFileFolder"
+                            SQLTask:ParameterDirection="Input"
+                            SQLTask:DataType="129"
+                            SQLTask:ParameterSize="-1" />
+                        </SQLTask:SqlTaskData>
+                      </DTS:ObjectData>
+                    </DTS:Executable>
+                  </DTS:Executables>
+                  <DTS:ForEachVariableMappings>
+                    <DTS:ForEachVariableMapping
+                      DTS:CreationName=""
+                      DTS:DTSID="{096F118D-C171-4998-B12D-B73893DFF959}"
+                      DTS:ObjectName="{096F118D-C171-4998-B12D-B73893DFF959}"
+                      DTS:ValueIndex="0"
+                      DTS:VariableName="User::ImgFullyQualifiedName" />
+                  </DTS:ForEachVariableMappings>
+                </DTS:Executable>
+              </DTS:Executables>
+              <DTS:PrecedenceConstraints>
+                <DTS:PrecedenceConstraint
+                  DTS:refId="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders.PrecedenceConstraints[Constraint]"
+                  DTS:CreationName=""
+                  DTS:DTSID="{BD6D38D0-2389-490B-989F-BB264A38BBE1}"
+                  DTS:From="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\CreateSummaryFolder"
+                  DTS:LogicalAnd="True"
+                  DTS:ObjectName="Constraint"
+                  DTS:To="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\Load summaryFolder Table" />
+                <DTS:PrecedenceConstraint
+                  DTS:refId="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders.PrecedenceConstraints[Constraint 1]"
+                  DTS:CreationName=""
+                  DTS:DTSID="{39BA7A22-1C10-4892-9EE5-B9BB5846B254}"
+                  DTS:From="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\Load summaryFolder Table"
+                  DTS:LogicalAnd="True"
+                  DTS:ObjectName="Constraint 1"
+                  DTS:To="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\LoadImagePathToTables" />
+              </DTS:PrecedenceConstraints>
+              <DTS:ForEachVariableMappings>
+                <DTS:ForEachVariableMapping
+                  DTS:CreationName=""
+                  DTS:DTSID="{68232B58-1EF6-4656-A205-4904AA747ADB}"
+                  DTS:ObjectName="{68232B58-1EF6-4656-A205-4904AA747ADB}"
+                  DTS:ValueIndex="0"
+                  DTS:VariableName="User::SummaryCountScalar" />
+              </DTS:ForEachVariableMappings>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Sequence Container\Creates BatchFile Folder\CreateListOfValuesForSummaryFolders"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{0F28EDDF-E8B7-474D-849B-89955EDCFA38}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="CreateListOfValuesForSummaryFolders"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{15A751D8-66E3-4C6B-9C0F-83A31EA187E2}"
+                  SQLTask:SqlStatementSource=" declare @num int = 1, @n int = 3, @r int =?&#xA;drop table if exists #num&#xA;create table #num(num int)&#xA;set @num=(@r-1)*5+1&#xA;while @num&gt;=(@r-1)*5+1 and @num&lt;=(@r-1)*5+5&#xA;begin&#xA;insert into #num&#xA;values(@num)&#xA;set @num = @num + 1&#xA;end&#xA; select * from #num"
+                  SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  <SQLTask:ResultBinding
+                    SQLTask:ResultName="0"
+                    SQLTask:DtsVariableName="User::SummaryCount" />
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="0"
+                    SQLTask:DtsVariableName="User::BatchFileCounterScalar"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="3"
+                    SQLTask:ParameterSize="-1" />
+                </SQLTask:SqlTaskData>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\Sequence Container\Creates BatchFile Folder\Load BatchFile Table"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{4ee78c6e-3f6e-4975-9c56-073f8c6f7e82}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Load BatchFile Table"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{3623D2B8-30FD-4D29-9EB8-488684185668}"
+                  SQLTask:SqlStatementSource="Declare @BatchFileFolder Varchar(60)=?,&#xA;&#x9;&#x9;        @BatchFolder Varchar(60)=?&#xA;&#x9;&#x9;Insert Into BatchFile(BatchID,&#xA;&#x9;&#x9;                      BatchFileFolderName)&#xA;&#x9;    Select BatchID , Replace(@BatchFileFolder,@BatchFolder+'\', '')&#xA;&#x9;&#x9;From dbo.Batch &#xA;Except&#xA;&#x9;&#x9;Select BatchID,&#xA;&#x9;&#x9;       BatchFileFolderName&#xA;&#x9;&#x9;From BatchFile" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="@BatchFileFolder"
+                    SQLTask:DtsVariableName="User::BatchFileFolder"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="129"
+                    SQLTask:ParameterSize="-1" />
+                  <SQLTask:ParameterBinding
+                    SQLTask:ParameterName="@BatchFolder"
+                    SQLTask:DtsVariableName="User::BatchFolder"
+                    SQLTask:ParameterDirection="Input"
+                    SQLTask:DataType="129"
+                    SQLTask:ParameterSize="-1" />
+                </SQLTask:SqlTaskData>
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Sequence Container\Creates BatchFile Folder.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{6BF7D12E-9935-42B4-A7B1-A4D68B5F9D2F}"
+              DTS:From="Package\Sequence Container\Creates BatchFile Folder\BatchFileFolderCreate"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\Sequence Container\Creates BatchFile Folder\Load BatchFile Table" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Sequence Container\Creates BatchFile Folder.PrecedenceConstraints[Constraint 1]"
+              DTS:CreationName=""
+              DTS:DTSID="{03755D5A-5D81-4AFD-92E3-44FD35ACC20E}"
+              DTS:From="Package\Sequence Container\Creates BatchFile Folder\CreateListOfValuesForSummaryFolders"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 1"
+              DTS:To="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\Sequence Container\Creates BatchFile Folder.PrecedenceConstraints[Constraint 2]"
+              DTS:CreationName=""
+              DTS:DTSID="{96D174F5-9E7F-4459-97C3-13D70EE13C2B}"
+              DTS:From="Package\Sequence Container\Creates BatchFile Folder\Load BatchFile Table"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 2"
+              DTS:To="Package\Sequence Container\Creates BatchFile Folder\CreateListOfValuesForSummaryFolders" />
+          </DTS:PrecedenceConstraints>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{6FA89A6D-D9ED-478F-B94A-8B525BDD79AA}"
+              DTS:ObjectName="{6FA89A6D-D9ED-478F-B94A-8B525BDD79AA}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::BatchFileCounterScalar" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\GenerateBatchFilePostfixNumbers"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{516F0C9B-12DC-417E-98DE-ED6AE4C05276}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="GenerateBatchFilePostfixNumbers"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{15A751D8-66E3-4C6B-9C0F-83A31EA187E2}"
+              SQLTask:SqlStatementSource="declare @num int = 1, @n int = 10&#xA;drop table if exists #num&#xA;create table #num(num int)&#xA;while @num&lt;=@n&#xA;begin&#xA;insert into #num&#xA;values(@num)&#xA;set @num = @num + 1&#xA;end&#xA; select * from #num"
+              SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::BatchFileCount" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Sequence Container\Load Batch Table"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{6C8CF5E9-1034-4A4A-B614-D31AC2EDF4E3}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Load Batch Table"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{3623D2B8-30FD-4D29-9EB8-488684185668}"
+              SQLTask:SqlStatementSource="insert into Batch(BatchPath)&#xA;Select ?&#xA;Except&#xA;Select BatchPath &#xA;from Batch" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::BatchFolder"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{0834ED1F-A19A-474A-9BC7-EB303DCBEAFA}"
+          DTS:From="Package\Sequence Container\BatchFolderCreate"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Sequence Container\Load Batch Table" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{07D729CE-9B54-4E4A-80F9-3F5705FE95AF}"
+          DTS:From="Package\Sequence Container\GenerateBatchFilePostfixNumbers"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Sequence Container\Creates BatchFile Folder" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Sequence Container.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{B7EADC8A-3D45-449D-9FF4-57D5A5A56C7C}"
+          DTS:From="Package\Sequence Container\Load Batch Table"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Sequence Container\GenerateBatchFilePostfixNumbers" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="165.6,41.6"
+          Id="Package\Sequence Container\BatchFolderCreate"
+          TopLeft="73.8333306180107,5.5" />
+        <NodeLayout
+          Size="182.4,41.6"
+          Id="Package\Sequence Container\Creates BatchFile Folder\BatchFileFolderCreate"
+          TopLeft="58.9666541828056,26.7333355167178" />
+        <NodeLayout
+          Size="347.2,41.6"
+          Id="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\CreateSummaryFolder"
+          TopLeft="54.1222087228747,28.5333364465504" />
+        <NodeLayout
+          Size="284,41.6"
+          Id="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\LoadImagePathToTables\LoadImgFullyQualifiedNameIntoImgIndexing"
+          TopLeft="110.703680708085,49.1703735769531" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="472,155.2"
+          Size="472,198.4"
+          Id="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\LoadImagePathToTables"
+          TopLeft="18.4740619912567,212.359263617228" />
+        <NodeLayout
+          Size="205.6,41.6"
+          Id="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders\Load summaryFolder Table"
+          TopLeft="279.931467730102,110.366667889224" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders.PrecedenceConstraints[Constraint]"
+          TopLeft="227.722208722875,70.1333364465504">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="155.009259007227,40.2333314426738"
+              Start="0,0"
+              End="155.009259007227,32.7333314426738">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.1166657213369" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.1166657213369"
+                    Point2="0,20.1166657213369"
+                    Point3="4,20.1166657213369" />
+                  <mssgle:LineSegment
+                    End="151.009259007227,20.1166657213369" />
+                  <mssgle:CubicBezierSegment
+                    Point1="151.009259007227,20.1166657213369"
+                    Point2="155.009259007227,20.1166657213369"
+                    Point3="155.009259007227,24.1166657213369" />
+                  <mssgle:LineSegment
+                    End="155.009259007227,32.7333314426738" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders.PrecedenceConstraints[Constraint 1]"
+          TopLeft="382.731467730102,151.966667889224">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-128.257405738845,60.3925957280039"
+              Start="0,0"
+              End="-128.257405738845,52.8925957280039">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.196297864002" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.196297864002"
+                    Point2="0,30.196297864002"
+                    Point3="-4,30.196297864002" />
+                  <mssgle:LineSegment
+                    End="-124.257405738845,30.196297864002" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-124.257405738845,30.196297864002"
+                    Point2="-128.257405738845,30.196297864002"
+                    Point3="-128.257405738845,34.196297864002" />
+                  <mssgle:LineSegment
+                    End="-128.257405738845,52.8925957280039" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="585.6,465.6"
+          Size="585.6,508.8"
+          Id="Package\Sequence Container\Creates BatchFile Folder\Create Summary Folders"
+          TopLeft="41.3705010358602,278.177781819591" />
+        <NodeLayout
+          Size="281.6,41.6"
+          Id="Package\Sequence Container\Creates BatchFile Folder\CreateListOfValuesForSummaryFolders"
+          TopLeft="23.6888778068405,184.244448133928" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Creates BatchFile Folder.PrecedenceConstraints[Constraint 1]"
+          TopLeft="164.488877806841,225.844448133928">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="169.68162322902,52.3333336856635"
+              Start="0,0"
+              End="169.68162322902,44.8333336856635">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.1666668428317" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.1666668428317"
+                    Point2="0,26.1666668428317"
+                    Point3="4,26.1666668428317" />
+                  <mssgle:LineSegment
+                    End="165.68162322902,26.1666668428317" />
+                  <mssgle:CubicBezierSegment
+                    Point1="165.68162322902,26.1666668428317"
+                    Point2="169.68162322902,26.1666668428317"
+                    Point3="169.68162322902,30.1666668428317" />
+                  <mssgle:LineSegment
+                    End="169.68162322902,44.8333336856635" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="176.8,41.6"
+          Id="Package\Sequence Container\Creates BatchFile Folder\Load BatchFile Table"
+          TopLeft="339.188875257087,98.6222233472048" />
+        <EdgeLayout
+          Id="Package\Sequence Container\Creates BatchFile Folder.PrecedenceConstraints[Constraint]"
+          TopLeft="150.166654182806,68.3333355167178">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="277.422221074281,30.288887830487"
+              Start="0,0"
+              End="277.422221074281,22.788887830487">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.1444439152435" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.1444439152435"
+                    Point2="0,15.1444439152435"
+                    Point3="4,15.1444439152435" />
+                  <mssgle:LineSegment
+                    End="273.422221074281,15.1444439152435" />
+                  <mssgle:CubicBezierSegment
+                    Point1="273.422221074281,15.1444439152435"
+                    Point2="277.422221074281,15.1444439152435"
+                    Point3="277.422221074281,19.1444439152435" />
+                  <mssgle:LineSegment
+                    End="277.422221074281,22.788887830487" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container\Creates BatchFile Folder.PrecedenceConstraints[Constraint 2]"
+          TopLeft="427.588875257087,140.222223347205">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-263.099997450246,44.0222247867228"
+              Start="0,0"
+              End="-263.099997450246,36.5222247867228">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.0111123933614" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.0111123933614"
+                    Point2="0,22.0111123933614"
+                    Point3="-4,22.0111123933614" />
+                  <mssgle:LineSegment
+                    End="-259.099997450246,22.0111123933614" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-259.099997450246,22.0111123933614"
+                    Point2="-263.099997450246,22.0111123933614"
+                    Point3="-263.099997450246,26.0111123933614" />
+                  <mssgle:LineSegment
+                    End="-263.099997450246,36.5222247867228" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="636.8,841.6"
+          Size="636.8,884.8"
+          Id="Package\Sequence Container\Creates BatchFile Folder"
+          TopLeft="15.9166662527456,249.611113051132" />
+        <NodeLayout
+          Size="164.8,41.6"
+          Id="Package\Sequence Container\GenerateBatchFilePostfixNumbers"
+          TopLeft="85.4666532887359,165.222223808677" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="167.866653288736,206.822223808677">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="166.45001296401,42.788889242455"
+              Start="0,0"
+              End="166.45001296401,35.288889242455">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.3944446212275" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.3944446212275"
+                    Point2="0,21.3944446212275"
+                    Point3="4,21.3944446212275" />
+                  <mssgle:LineSegment
+                    End="162.45001296401,21.3944446212275" />
+                  <mssgle:CubicBezierSegment
+                    Point1="162.45001296401,21.3944446212275"
+                    Point2="166.45001296401,21.3944446212275"
+                    Point3="166.45001296401,25.3944446212275" />
+                  <mssgle:LineSegment
+                    End="166.45001296401,35.288889242455" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="160,41.6"
+          Id="Package\Sequence Container\Load Batch Table"
+          TopLeft="354.438854809383,83.5000018080076" />
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint]"
+          TopLeft="156.633330618011,47.1">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="277.805524191373,36.4000018080076"
+              Start="0,0"
+              End="277.805524191373,28.9000018080076">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.2000009040038" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.2000009040038"
+                    Point2="0,18.2000009040038"
+                    Point3="4,18.2000009040038" />
+                  <mssgle:LineSegment
+                    End="273.805524191373,18.2000009040038" />
+                  <mssgle:CubicBezierSegment
+                    Point1="273.805524191373,18.2000009040038"
+                    Point2="277.805524191373,18.2000009040038"
+                    Point3="277.805524191373,22.2000009040038" />
+                  <mssgle:LineSegment
+                    End="277.805524191373,28.9000018080076" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Sequence Container.PrecedenceConstraints[Constraint 2]"
+          TopLeft="434.438854809383,125.100001808008">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-266.572201520648,40.1222220006695"
+              Start="0,0"
+              End="-266.572201520648,32.6222220006695">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.0611110003347" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.0611110003347"
+                    Point2="0,20.0611110003347"
+                    Point3="-4,20.0611110003347" />
+                  <mssgle:LineSegment
+                    End="-262.572201520648,20.0611110003347" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-262.572201520648,20.0611110003347"
+                    Point2="-266.572201520648,20.0611110003347"
+                    Point3="-266.572201520648,24.0611110003347" />
+                  <mssgle:LineSegment
+                    End="-266.572201520648,32.6222220006695" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="659.2,1189.6"
+          Size="659.2,1232.8"
+          Id="Package\Sequence Container"
+          TopLeft="325.380717451262,153.57575875918" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
