@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="ImageIndexing">
+  <ConnectionProperties>
+    <Extension>OLEDB</Extension>
+    <ConnectString>Provider=SQLOLEDB.1;Data Source=MELAT\MELAT;Initial Catalog=Imageindexing</ConnectString>
+    <IntegratedSecurity>true</IntegratedSecurity>
+  </ConnectionProperties>
+  <DataSourceID>8b1f8b56-8b94-4f47-8eae-b4940235541d</DataSourceID>
+</RptDataSource>
